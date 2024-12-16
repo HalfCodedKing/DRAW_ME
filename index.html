@@ -81,6 +81,24 @@
         })
 
         // canvas drawing
+        canvas.addEventListener('touchstart', (e) => {
+            isDrawing = true;
+            lastX = e.touches[0].pageX;
+            lastY = e.touches[0].pageY;
+        });
+        canvas.addEventListener('touchmove', (e) => {
+            if(isDrawing){
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(e.touches[0].pageX, e.touches[0].pageY);
+                ctx.stroke();
+                lastX = e.touches[0].pageX;
+                lastY = e.touches[0].pageY;
+            }
+        });
+        canvas.addEventListener('touchend', () => {
+            isDrawing = false;
+        });
         canvas.addEventListener('mousemove', (e) => {
             if(isDrawing){
                 ctx.beginPath();
@@ -90,8 +108,8 @@
                 lastX = e.offsetX;
                 lastY = e.offsetY;
             }
-        })  
-
+        })
+        
         // stop drawing when the mouse is out 
         canvas.addEventListener('mouseup', () => {
             isDrawing = false;
